@@ -22,8 +22,8 @@ First, configure your Notion integration:
 </resources>
 ```
 
-* You can find the database ID in the URL of the database page, and the boolean column ID in the
-  requests the page makes.
+You can find the database ID in the URL of the database page, and the boolean column ID in the
+requests the page makes.
 
 Then, you can use Android Studio to build the project.
 
