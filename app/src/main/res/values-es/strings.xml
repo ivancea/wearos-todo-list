@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lista de tareas</string>
+    <string name="list__no_items">Sin elementos</string>
+    <string name="main__configure">Configurar</string>
+</resources>

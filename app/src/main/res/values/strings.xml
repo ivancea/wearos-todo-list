@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">To-do list</string>
+    <string name="list__no_items">No items</string>
+    <string name="main__configure">Configure</string>
+    <string name="picker__notion" translatable="false">Notion</string>
 </resources>
