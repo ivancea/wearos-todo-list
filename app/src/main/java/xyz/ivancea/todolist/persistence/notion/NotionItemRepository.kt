@@ -1,16 +1,22 @@
 package xyz.ivancea.todolist.persistence.notion
 
+import android.content.Context
 import notion.api.v1.NotionClient
 import notion.api.v1.model.common.Emoji
 import notion.api.v1.model.databases.query.filter.PropertyFilter
 import notion.api.v1.model.databases.query.filter.condition.CheckboxFilter
 import notion.api.v1.model.pages.PageProperty
+import xyz.ivancea.todolist.R
 import xyz.ivancea.todolist.persistence.api.ItemRepository
 import xyz.ivancea.todolist.persistence.api.PersistedItem
 
 class NotionItemRepository constructor(private val data: NotionConnectionData) : ItemRepository {
 	companion object {
 		const val DONE_VALUE = false
+	}
+
+	override fun getTranslatedName(context: Context): String {
+		return context.getString(R.string.picker__notion)
 	}
 
 	override suspend fun getIncompleteItems(): List<NotionPersistedItem> {

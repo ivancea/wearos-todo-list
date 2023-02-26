@@ -2,8 +2,14 @@ package xyz.ivancea.todolist.presentation.picker.components.wizards.notion
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.SwipeToDismissBox
@@ -50,7 +56,7 @@ fun NotionWizard(
 			withContext(Dispatchers.Main) {
 				Toast.makeText(
 					context,
-					"Error fetching databases (${e.message}) - TODO: Translate and use more specific messages by error type",
+					"Error fetching databases (${e.message})",
 					Toast.LENGTH_LONG
 				).show()
 			}

@@ -5,10 +5,16 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.wear.compose.material.CircularProgressIndicator
@@ -19,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import notion.api.v1.NotionClient
 import notion.api.v1.model.common.PropertyType
+import xyz.ivancea.todolist.R
 
 @Composable
 fun BooleanColumnNotionWizard(
@@ -48,7 +55,7 @@ fun BooleanColumnNotionWizard(
 			withContext(Dispatchers.Main) {
 				Toast.makeText(
 					context,
-					"Error fetching columns (${e.message}) - TODO: Translate and use more specific messages by error type",
+					"Error fetching columns (${e.message})",
 					Toast.LENGTH_LONG
 				).show()
 			}
@@ -70,7 +77,7 @@ fun BooleanColumnNotionWizard(
 
 	Picker(
 		state = pickerState,
-		contentDescription = "Choose a column - TODO: Translate",
+		contentDescription = stringResource(R.string.picker__notion_column_picker_description),
 		modifier = Modifier.fillMaxSize()
 	) { optionIndex ->
 		val isSelected = pickerState.selectedOption == optionIndex

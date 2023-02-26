@@ -5,4 +5,6 @@
     <string name="main__configure">Configurar</string>
     <string name="picker__notion_integration_token">Token de la integración</string>
     <string name="picker__notion_use_token">Usar token</string>
+    <string name="picker__notion_column_picker_description">Elige una columna</string>
+    <string name="picker__notion_database_picker_description">Eliga una base de datos</string>
 </resources>

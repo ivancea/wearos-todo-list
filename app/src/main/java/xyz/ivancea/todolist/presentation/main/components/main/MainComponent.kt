@@ -26,6 +26,14 @@ fun MainComponent(
 			Chip(
 				colors = ChipDefaults.primaryChipColors(),
 				border = ChipDefaults.chipBorder(),
+				onClick = { viewModel.reloadItemRepositoryFromStorage() },
+				modifier = Modifier.align(Alignment.BottomCenter)
+			) {
+				Text("Use current data", modifier = Modifier.align(Alignment.CenterVertically))
+			}
+			Chip(
+				colors = ChipDefaults.primaryChipColors(),
+				border = ChipDefaults.chipBorder(),
 				onClick = onConfigure,
 				modifier = Modifier.align(Alignment.Center)
 			) {
@@ -34,17 +42,11 @@ fun MainComponent(
 					modifier = Modifier.align(Alignment.CenterVertically)
 				)
 			}
-			Chip(
-				colors = ChipDefaults.primaryChipColors(),
-				border = ChipDefaults.chipBorder(),
-				onClick = { viewModel.reloadItemRepositoryFromStorage() },
-				modifier = Modifier.align(Alignment.BottomCenter)
-			) {
-				Text("Use current data", modifier = Modifier.align(Alignment.CenterVertically))
-			}
 		} else {
-			SwipeToDismissBox(onDismissed = { viewModel.clearItemRepository() }) {
-				ListDataLoader(repository)
+			SwipeToDismissBox(onDismissed = { viewModel.clearItemRepository() }) { isBackground ->
+				if (!isBackground) {
+					ListDataLoader(repository)
+				}
 			}
 		}
 	}
