@@ -1,5 +1,6 @@
 package xyz.ivancea.todolist.presentation.picker
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,7 +13,10 @@ class PickerActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 
 		setContent {
-			PickerComponent()
+			PickerComponent(onFinish = {
+				setResult(Activity.RESULT_OK)
+				finish()
+			})
 		}
 	}
 }

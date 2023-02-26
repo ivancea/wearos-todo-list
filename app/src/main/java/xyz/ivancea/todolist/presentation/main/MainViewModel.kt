@@ -15,7 +15,11 @@ class MainViewModel @Inject constructor(
 	private val _itemRepository = MutableStateFlow<ItemRepository?>(null)
 	val itemRepository = _itemRepository.asStateFlow()
 
-	fun reloadItemRepository() {
+	fun reloadItemRepositoryFromStorage() {
 		_itemRepository.value = itemRepositoryLoader.getRepository()
+	}
+
+	fun clearItemRepository() {
+		_itemRepository.value = null
 	}
 }

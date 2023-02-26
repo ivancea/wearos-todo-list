@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.SwipeToDismissBox
 import androidx.wear.compose.material.Text
 import xyz.ivancea.todolist.R
 import xyz.ivancea.todolist.presentation.common.components.BaseLayout
@@ -36,13 +37,15 @@ fun MainComponent(
 			Chip(
 				colors = ChipDefaults.primaryChipColors(),
 				border = ChipDefaults.chipBorder(),
-				onClick = { viewModel.reloadItemRepository() },
+				onClick = { viewModel.reloadItemRepositoryFromStorage() },
 				modifier = Modifier.align(Alignment.BottomCenter)
 			) {
-				Text("Use Notion (Test)", modifier = Modifier.align(Alignment.CenterVertically))
+				Text("Use current data", modifier = Modifier.align(Alignment.CenterVertically))
 			}
 		} else {
-			ListDataLoader(repository)
+			SwipeToDismissBox(onDismissed = { viewModel.clearItemRepository() }) {
+				ListDataLoader(repository)
+			}
 		}
 	}
 }

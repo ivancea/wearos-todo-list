@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
 		ActivityResultContracts.StartActivityForResult()
 	) { result: ActivityResult ->
 		if (result.resultCode == Activity.RESULT_OK) {
-			viewModel.reloadItemRepository()
+			viewModel.reloadItemRepositoryFromStorage()
 		}
 	}
 

@@ -20,7 +20,6 @@ fun ListDataLoader(
 	repository: ItemRepository
 ) {
 	val coroutineScope = rememberCoroutineScope()
-
 	val items = remember { mutableStateListOf<PersistedItem>() }
 	val (refreshing, setRefreshing) = remember { mutableStateOf(false) }
 
@@ -31,12 +30,14 @@ fun ListDataLoader(
 				repository.getIncompleteItems()
 			}
 
+			items.clear()
 			items.addAll(newItems)
+			
 			setRefreshing(false)
 		}
 	}
 
-	LaunchedEffect(Unit) {
+	LaunchedEffect(repository) {
 		refresh()
 	}
 

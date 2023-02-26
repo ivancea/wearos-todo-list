@@ -3,32 +3,31 @@ package xyz.ivancea.todolist.presentation.picker.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.key
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.Text
 import xyz.ivancea.todolist.R
 import xyz.ivancea.todolist.presentation.common.components.BaseLayout
 import xyz.ivancea.todolist.presentation.picker.PersistenceType
-import xyz.ivancea.todolist.presentation.picker.PickerViewModel
-import xyz.ivancea.todolist.presentation.picker.components.wizards.NotionWizard
+import xyz.ivancea.todolist.presentation.picker.components.wizards.notion.NotionWizard
 
 data class Persistence(
-	val name: String, val component: @Composable () -> Unit
+	val name: String, val component: @Composable (onSuccess: () -> Unit, onBack: () -> Unit) -> Unit
 )
 
 @Composable
-fun PickerComponent(viewModel: PickerViewModel = hiltViewModel()) {
-	val chosenPersistenceType = viewModel.chosenPersistenceType.collectAsState().value
+fun PickerComponent(onFinish: () -> Unit) {
+	var chosenPersistenceType by rememberSaveable { mutableStateOf<PersistenceType?>(null) }
 
 	val persistenceToComponent =
-		mapOf(PersistenceType.Notion to Persistence(stringResource(R.string.picker__notion)) { NotionWizard() })
+		mapOf(PersistenceType.Notion to Persistence(stringResource(R.string.picker__notion)) { onSuccess, onBack ->
+			NotionWizard(onSuccess = onSuccess, onBack = onBack)
+		})
 
 	BaseLayout {
 		if (chosenPersistenceType == null) {
@@ -42,7 +41,7 @@ fun PickerComponent(viewModel: PickerViewModel = hiltViewModel()) {
 						Chip(
 							colors = ChipDefaults.primaryChipColors(),
 							border = ChipDefaults.chipBorder(),
-							onClick = { viewModel.choosePersistenceType(persistenceType) },
+							onClick = { chosenPersistenceType = persistenceType },
 						) {
 							Text(
 								persistence.name,
@@ -56,11 +55,12 @@ fun PickerComponent(viewModel: PickerViewModel = hiltViewModel()) {
 			val persistence = persistenceToComponent[chosenPersistenceType]
 
 			if (persistence == null) {
-				viewModel.choosePersistenceType(null)
+				chosenPersistenceType = null
 				return@BaseLayout
 			}
 
-			persistence.component.invoke()
+			persistence.component.invoke(onSuccess = onFinish,
+				onBack = { chosenPersistenceType = null })
 		}
 	}
 }

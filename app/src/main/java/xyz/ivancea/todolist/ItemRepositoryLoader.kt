@@ -14,13 +14,11 @@ class ItemRepositoryLoader @Inject constructor(
 		val databaseType = storage.getPersistenceType()
 
 		if (databaseType == NotionConnectionData.TYPE) {
-			return LoggerItemRepository(
-				NotionItemRepository(
-					Json.decodeFromString(
-						storage.getDatabaseData()
-					)
-				)
+			val connectionData = Json.decodeFromString<NotionConnectionData>(
+				storage.getPersistenceData() ?: "{}"
 			)
+
+			return LoggerItemRepository(NotionItemRepository(connectionData))
 		}
 
 		return null

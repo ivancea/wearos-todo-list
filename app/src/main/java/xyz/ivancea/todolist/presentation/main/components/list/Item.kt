@@ -7,6 +7,7 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.runtime.*
@@ -37,17 +38,19 @@ fun LazyItemScope.Item(
 	}
 	var toggling by remember { mutableStateOf(false) }
 
+	val iconLambda: @Composable BoxScope.() -> Unit = {
+		if (toggling) {
+			CircularProgressIndicator(modifier = Modifier.size(14.dp))
+		} else if (item.emoji != null) {
+			Text(item.emoji.toString())
+		}
+	}
+
 	CompactChip(
 		label = {
 			Text(item.name)
 		},
-		icon = {
-			if (toggling) {
-				CircularProgressIndicator(modifier = Modifier.size(14.dp))
-			} else if (item.emoji != null) {
-				Text(item.emoji.toString())
-			}
-		},
+		icon = if (toggling || item.emoji != null) iconLambda else null,
 		colors = if (item.done) {
 			ChipDefaults.secondaryChipColors()
 		} else {

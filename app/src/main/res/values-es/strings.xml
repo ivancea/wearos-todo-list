@@ -3,4 +3,6 @@
     <string name="app_name">Lista de tareas</string>
     <string name="list__no_items">Sin elementos</string>
     <string name="main__configure">Configurar</string>
+    <string name="picker__notion_integration_token">Token de la integración</string>
+    <string name="picker__notion_use_token">Usar token</string>
 </resources>
