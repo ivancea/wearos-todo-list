@@ -1,6 +1,5 @@
 package xyz.ivancea.todolist.presentation.main.components.list
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,8 +55,7 @@ fun ItemsList(
 			val textStyle = TimeTextDefaults.timeTextStyle().copy(
 				color = color, fontSize = 12.sp
 			)
-			TimeText(
-				startLinearContent = { Text(repositoryName, style = textStyle) },
+			TimeText(startLinearContent = { Text(repositoryName, style = textStyle) },
 				startCurvedContent = {
 					this.curvedText(
 						repositoryName, style = CurvedTextStyle(textStyle)
@@ -69,9 +67,7 @@ fun ItemsList(
 		LazyColumn(
 			state = listState,
 			horizontalAlignment = Alignment.CenterHorizontally,
-			modifier = Modifier
-				.fillMaxSize()
-				.background(MaterialTheme.colors.background),
+			modifier = Modifier.fillMaxSize(),
 			verticalArrangement = Arrangement.Center
 		) {
 			items(items = sortedItems, key = { it.id }) { item ->

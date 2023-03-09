@@ -72,6 +72,8 @@ fun ListDataLoader(
 				}
 			}
 		}
-		PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+		PullRefreshIndicator(
+			refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter)
+		)
 	}
 }

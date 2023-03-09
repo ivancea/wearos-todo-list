@@ -44,7 +44,7 @@ fun NotionWizard(
 	// Restore token to ease changing database
 	LaunchedEffect(Unit) {
 		try {
-			if (viewModel.storage.getPersistenceType() == NotionConnectionData.TYPE) {
+			if (token == "" && viewModel.storage.getPersistenceType() == NotionConnectionData.TYPE) {
 				val connectionData = Json.decodeFromString<NotionConnectionData>(
 					viewModel.storage.getPersistenceData() ?: "{}"
 				)
