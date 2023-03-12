@@ -1,7 +1,12 @@
 package xyz.ivancea.todolist.presentation.main.components.main
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,17 +25,20 @@ fun MainComponent(
 	onConfigure: () -> Unit, viewModel: MainViewModel = hiltViewModel()
 ) {
 	val repository = viewModel.itemRepository.collectAsState().value
+	var isOpen by remember { mutableStateOf(true) }
+
+	LaunchedEffect(repository) {
+		isOpen = repository != null
+	}
 
 	BaseLayout {
-		if (repository == null) {
-			Chip(
-				colors = ChipDefaults.primaryChipColors(),
-				border = ChipDefaults.chipBorder(),
-				onClick = { viewModel.reloadItemRepositoryFromStorage() },
-				modifier = Modifier.align(Alignment.BottomCenter)
-			) {
-				Text("Use current data", modifier = Modifier.align(Alignment.CenterVertically))
+		if (isOpen && repository != null) {
+			SwipeToDismissBox(onDismissed = { isOpen = false }) { isBackground ->
+				if (!isBackground) {
+					ListDataLoader(repository)
+				}
 			}
+		} else {
 			Chip(
 				colors = ChipDefaults.primaryChipColors(),
 				border = ChipDefaults.chipBorder(),
@@ -42,10 +50,18 @@ fun MainComponent(
 					modifier = Modifier.align(Alignment.CenterVertically)
 				)
 			}
-		} else {
-			SwipeToDismissBox(onDismissed = { viewModel.clearItemRepository() }) { isBackground ->
-				if (!isBackground) {
-					ListDataLoader(repository)
+
+			if (repository != null) {
+				Chip(
+					colors = ChipDefaults.primaryChipColors(),
+					border = ChipDefaults.chipBorder(),
+					onClick = { isOpen = true },
+					modifier = Modifier.align(Alignment.BottomCenter)
+				) {
+					Text(
+						stringResource(R.string.main__use_current_data),
+						modifier = Modifier.align(Alignment.CenterVertically)
+					)
 				}
 			}
 		}

@@ -7,4 +7,5 @@
     <string name="picker__notion_use_token">Use token</string>
     <string name="picker__notion_column_picker_description">Choose a column</string>
     <string name="picker__notion_database_picker_description">Choose a database</string>
+    <string name="main__use_current_data">Use current data</string>
 </resources>
