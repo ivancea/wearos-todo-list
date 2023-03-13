@@ -7,8 +7,8 @@ interface PersistedItem {
 	// The name to be shown to the user
 	val name: String
 
-	// An emoji representing the item
-	val emoji: String?
+	// An icon representing the item
+	val icon: Icon?
 
 	// The done state of the item
 	val done: Boolean

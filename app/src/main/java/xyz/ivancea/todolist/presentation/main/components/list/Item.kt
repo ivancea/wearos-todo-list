@@ -13,14 +13,17 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalDensity
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.CompactChip
+import androidx.wear.compose.material.LocalTextStyle
 import androidx.wear.compose.material.Text
+import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
+import xyz.ivancea.todolist.persistence.api.EmojiIcon
 import xyz.ivancea.todolist.persistence.api.PersistedItem
-
+import xyz.ivancea.todolist.persistence.api.UrlIcon
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
@@ -39,10 +42,21 @@ fun LazyItemScope.Item(
 	var toggling by remember { mutableStateOf(false) }
 
 	val iconLambda: @Composable BoxScope.() -> Unit = {
+		val size = with(LocalDensity.current) {
+			LocalTextStyle.current.fontSize.toDp()
+		}
+
 		if (toggling) {
-			CircularProgressIndicator(modifier = Modifier.size(14.dp))
-		} else if (item.emoji != null) {
-			Text(item.emoji.toString())
+			CircularProgressIndicator(modifier = Modifier.size(size))
+		} else if (item.icon != null) {
+			when (val icon = item.icon) {
+				is EmojiIcon -> Text(icon.emoji)
+				is UrlIcon -> AsyncImage(
+					model = icon.url,
+					contentDescription = null,
+					modifier = Modifier.size(size)
+				)
+			}
 		}
 	}
 
@@ -50,7 +64,7 @@ fun LazyItemScope.Item(
 		label = {
 			Text(item.name)
 		},
-		icon = if (toggling || item.emoji != null) iconLambda else null,
+		icon = if (toggling || item.icon != null) iconLambda else null,
 		colors = if (item.done) {
 			ChipDefaults.secondaryChipColors()
 		} else {
